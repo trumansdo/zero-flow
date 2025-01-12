@@ -5,26 +5,45 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
- * 既是流，也是{@link ArrayList}
+ * 既是流，也是{@link java.util.ArrayList}
  *
  * @author wolray
  */
 public class ArrayListZeroFlow<T> extends ArrayList<T> implements ListZeroFlow<T> {
 
+  /**
+   * <p>Constructor for ArrayListZeroFlow.</p>
+   *
+   * @param initialCapacity a int
+   */
   public ArrayListZeroFlow(int initialCapacity) {
 
     super(initialCapacity);
   }
 
+  /**
+   * <p>Constructor for ArrayListZeroFlow.</p>
+   */
   public ArrayListZeroFlow() {
 
   }
 
+  /**
+   * <p>Constructor for ArrayListZeroFlow.</p>
+   *
+   * @param c a {@link java.util.Collection} object
+   */
   public ArrayListZeroFlow(Collection<? extends T> c) {
 
     super(c);
   }
 
+  /**
+   * <p>swap.</p>
+   *
+   * @param i a int
+   * @param j a int
+   */
   public void swap(int i, int j) {
 
     T t = get(i);
@@ -32,6 +51,12 @@ public class ArrayListZeroFlow<T> extends ArrayList<T> implements ListZeroFlow<T
     set(j, t);
   }
 
+  /**
+   * <p>permute.</p>
+   *
+   * @param inplace a boolean
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   public ZeroFlow<ArrayListZeroFlow<T>> permute(boolean inplace) {
 
     return c -> permute(c, inplace, 0);

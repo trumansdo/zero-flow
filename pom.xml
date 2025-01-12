@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>cn.trigram</groupId>
+  <groupId>io.github.trumansdo</groupId>
   <artifactId>zero-flow</artifactId>
   <version>1.0.0</version>
   <description>A powerful generator-like streaming API for Java</description>
@@ -79,8 +79,19 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.11.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <skip>true</skip> <!-- 跳过 Javadoc 生成 -->
+          <encoding>${project.build.sourceEncoding}</encoding> <!-- 指定源代码编码 -->
+          <additionalOptions> <!-- 附加的 Javadoc 选项 -->
+            <additionalOption>-Xdoclint:none</additionalOption> <!-- 禁用严格的 Javadoc 检查 -->
+          </additionalOptions>
         </configuration>
       </plugin>
       <plugin>
@@ -136,13 +147,16 @@
   <distributionManagement>
     <repository>
       <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
       <id>ossrh</id>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+      <name>Nexus Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+
 
 
 </project>

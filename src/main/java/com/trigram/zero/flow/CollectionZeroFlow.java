@@ -4,12 +4,19 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * 快速将{@link Collection}转成流处理 <br/> 既是流，也是{@link Collection}
+ * 快速将{@link java.util.Collection}转成流处理 <br/> 既是流，也是{@link java.util.Collection}
  *
  * @author wolray
  */
 public interface CollectionZeroFlow<T> extends SizedZeroFlow<T>, Collection<T> {
 
+  /**
+   * <p>of.</p>
+   *
+   * @param ts a {@link java.util.Collection} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.CollectionZeroFlow} object
+   */
   static <T> CollectionZeroFlow<T> of(Collection<T> ts) {
 
     return ts instanceof CollectionZeroFlow ? (CollectionZeroFlow<T>) ts : new Proxy<>(ts);

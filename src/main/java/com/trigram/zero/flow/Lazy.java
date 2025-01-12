@@ -10,18 +10,37 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * 延迟获取存放数据接口，扩展{@link Supplier}接口
+ * 延迟获取存放数据接口，扩展{@link java.util.function.Supplier}接口
  *
  * @version 1.0.0
  * @since 1.0.0
+ * @author Truma
  */
 public interface Lazy<T> extends Supplier<T> {
 
+  /**
+   * <p>of.</p>
+   *
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <T> Lazy<T> of(ZeroFlow<T> seq) {
 
     return seq.lazyLast();
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param s2 a {@link java.util.function.Supplier} object
+   * @param function a {@link java.util.function.BiFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, B, T> Lazy<T> of(Supplier<A> s1, Supplier<B> s2, BiFunction<A, B, T> function) {
 
     return new Mutable<T>(null) {
@@ -42,6 +61,14 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>submit.</p>
+   *
+   * @param pool a {@link java.util.concurrent.ForkJoinPool} object
+   * @param supplier a {@link java.util.function.Supplier} object
+   * @param <T> a T class
+   * @return a {@link java.util.function.Supplier} object
+   */
   static <T> Supplier<T> submit(ForkJoinPool pool, Supplier<T> supplier) {
 
     RecursiveTask<T> task;
@@ -73,6 +100,19 @@ public interface Lazy<T> extends Supplier<T> {
     return task::join;
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param s2 a {@link java.util.function.Supplier} object
+   * @param s3 a {@link java.util.function.Supplier} object
+   * @param function a {@link com.trigram.zero.flow.triple.TripleFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @param <C> a C class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, B, C, T> Lazy<T> of(Supplier<A> s1, Supplier<B> s2, Supplier<C> s3, TripleFunction<A, B, C, T> function) {
 
     return new Mutable<T>(null) {
@@ -94,6 +134,21 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param s2 a {@link java.util.function.Supplier} object
+   * @param s3 a {@link java.util.function.Supplier} object
+   * @param s4 a {@link java.util.function.Supplier} object
+   * @param function a {@link com.trigram.zero.flow.FourFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @param <C> a C class
+   * @param <D> a D class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, B, C, D, T> Lazy<T> of(
       Supplier<A> s1, Supplier<B> s2, Supplier<C> s3, Supplier<D> s4, FourFunction<A, B, C, D, T> function
   ) {
@@ -118,6 +173,23 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param s2 a {@link java.util.function.Supplier} object
+   * @param s3 a {@link java.util.function.Supplier} object
+   * @param s4 a {@link java.util.function.Supplier} object
+   * @param s5 a {@link java.util.function.Supplier} object
+   * @param function a {@link com.trigram.zero.flow.FiveFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @param <C> a C class
+   * @param <D> a D class
+   * @param <E> a E class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, B, C, D, E, T> Lazy<T> of(
       Supplier<A> s1, Supplier<B> s2, Supplier<C> s3, Supplier<D> s4, Supplier<E> s5,
       FiveFunction<A, B, C, D, E, T> function
@@ -144,6 +216,25 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param s2 a {@link java.util.function.Supplier} object
+   * @param s3 a {@link java.util.function.Supplier} object
+   * @param s4 a {@link java.util.function.Supplier} object
+   * @param s5 a {@link java.util.function.Supplier} object
+   * @param s6 a {@link java.util.function.Supplier} object
+   * @param function a {@link com.trigram.zero.flow.SixFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @param <C> a C class
+   * @param <D> a D class
+   * @param <E> a E class
+   * @param <F> a F class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, B, C, D, E, F, T> Lazy<T> of(
       Supplier<A> s1, Supplier<B> s2, Supplier<C> s3, Supplier<D> s4, Supplier<E> s5, Supplier<F> s6,
       SixFunction<A, B, C, D, E, F, T> function
@@ -171,6 +262,12 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>unset.</p>
+   *
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <T> Lazy<T> unset() {
 
     return of(() -> {
@@ -178,6 +275,13 @@ public interface Lazy<T> extends Supplier<T> {
     });
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param supplier a {@link java.util.function.Supplier} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <T> Lazy<T> of(Supplier<T> supplier) {
 
     if (supplier instanceof Lazy) {
@@ -193,18 +297,44 @@ public interface Lazy<T> extends Supplier<T> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param s1 a {@link java.util.function.Supplier} object
+   * @param function a {@link java.util.function.Function} object
+   * @param <A> a A class
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   static <A, T> Lazy<T> of(Supplier<A> s1, Function<A, T> function) {
 
     return of(() -> function.apply(s1.get()));
   }
 
+  /**
+   * <p>isSet.</p>
+   *
+   * @return a boolean
+   */
   default boolean isSet() {
 
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * <p>forkJoin.</p>
+   *
+   * @param pool a {@link java.util.concurrent.ForkJoinPool} object
+   * @return a T object
+   */
   T forkJoin(ForkJoinPool pool);
 
+  /**
+   * <p>andThen.</p>
+   *
+   * @param consumer a {@link java.util.function.Consumer} object
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   default Lazy<T> andThen(Consumer<T> consumer) {
 
     return of(() -> {
@@ -214,11 +344,21 @@ public interface Lazy<T> extends Supplier<T> {
     });
   }
 
+  /**
+   * <p>forkJoin.</p>
+   *
+   * @return a T object
+   */
   default T forkJoin() {
 
     return forkJoin(ForkJoinPool.commonPool());
   }
 
+  /**
+   * <p>ifSet.</p>
+   *
+   * @param consumer a {@link java.util.function.Consumer} object
+   */
   default void ifSet(Consumer<T> consumer) {
 
     if (isSet()) {
@@ -226,16 +366,35 @@ public interface Lazy<T> extends Supplier<T> {
     }
   }
 
+  /**
+   * <p>map.</p>
+   *
+   * @param function a {@link java.util.function.Function} object
+   * @param <E> a E class
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   default <E> Lazy<E> map(Function<T, E> function) {
 
     return of(this, function);
   }
 
+  /**
+   * <p>set.</p>
+   *
+   * @param value a T object
+   * @return a T object
+   */
   default T set(T value) {
 
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * <p>wrap.</p>
+   *
+   * @param operator a {@link java.util.function.UnaryOperator} object
+   * @return a {@link com.trigram.zero.flow.Lazy} object
+   */
   default Lazy<T> wrap(UnaryOperator<Supplier<T>> operator) {
 
     return of(operator.apply(this));

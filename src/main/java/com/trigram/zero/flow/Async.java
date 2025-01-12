@@ -12,20 +12,38 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
+ * <p>Async interface.</p>
+ *
  * @author wolray
  */
 public interface Async {
 
+  /**
+   * <p>common.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.Async} object
+   */
   static Async common() {
 
     return of(ForkJoinPool.commonPool());
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param forkJoinPool a {@link java.util.concurrent.ForkJoinPool} object
+   * @return a {@link com.trigram.zero.flow.Async} object
+   */
   static Async of(ForkJoinPool forkJoinPool) {
 
     return new ForkJoin(forkJoinPool);
   }
 
+  /**
+   * <p>delay.</p>
+   *
+   * @param time a long
+   */
   static void delay(long time) {
 
     try {
@@ -35,6 +53,12 @@ public interface Async {
     }
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param executor a {@link java.util.concurrent.ExecutorService} object
+   * @return a {@link com.trigram.zero.flow.Async} object
+   */
   static Async of(ExecutorService executor) {
 
     return executor instanceof ForkJoinPool ? of((ForkJoinPool) executor) : new Async() {
@@ -62,6 +86,12 @@ public interface Async {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param factory a {@link java.util.concurrent.ThreadFactory} object
+   * @return a {@link com.trigram.zero.flow.Async} object
+   */
   static Async of(ThreadFactory factory) {
 
     return new Async() {
@@ -94,6 +124,11 @@ public interface Async {
     };
   }
 
+  /**
+   * <p>apply.</p>
+   *
+   * @param runnable a {@link com.trigram.zero.flow.Async.ThreadRunnable} object
+   */
   static void apply(ThreadRunnable runnable) {
 
     try {
@@ -103,15 +138,39 @@ public interface Async {
     }
   }
 
+  /**
+   * <p>sourceOf.</p>
+   *
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   static <T> ZeroFlow<T> sourceOf(ZeroFlow<T> seq) {
 
     return seq instanceof AsyncZeroFlow ? ((AsyncZeroFlow<T>) seq).source : seq;
   }
 
+  /**
+   * <p>join.</p>
+   *
+   * @param task a {@link java.lang.Object} object
+   */
   void join(Object task);
 
+  /**
+   * <p>joinAll.</p>
+   *
+   * @param tasks a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   void joinAll(ZeroFlow<Runnable> tasks);
 
+  /**
+   * <p>toAsync.</p>
+   *
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.AsyncZeroFlow} object
+   */
   default <T> AsyncZeroFlow<T> toAsync(ZeroFlow<T> seq) {
 
     return new AsyncZeroFlow<T>(this, sourceOf(seq)) {
@@ -130,8 +189,21 @@ public interface Async {
     };
   }
 
+  /**
+   * <p>submit.</p>
+   *
+   * @param runnable a {@link java.lang.Runnable} object
+   * @return a {@link java.lang.Object} object
+   */
   Object submit(Runnable runnable);
 
+  /**
+   * <p>toChannel.</p>
+   *
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.AsyncZeroFlow} object
+   */
   default <T> AsyncZeroFlow<T> toChannel(ZeroFlow<T> seq) {
 
     return new AsyncZeroFlow<T>(this, sourceOf(seq)) {
@@ -169,6 +241,15 @@ public interface Async {
     };
   }
 
+  /**
+   * <p>toShared.</p>
+   *
+   * @param buffer a int
+   * @param delay a boolean
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default <T> ZeroFlow<T> toShared(int buffer, boolean delay, ZeroFlow<T> seq) {
 
     ForkJoin.checkForHot(this);
@@ -218,6 +299,14 @@ public interface Async {
     };
   }
 
+  /**
+   * <p>toState.</p>
+   *
+   * @param delay a boolean
+   * @param seq a {@link com.trigram.zero.flow.ZeroFlow} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default <T> ZeroFlow<T> toState(boolean delay, ZeroFlow<T> seq) {
 
     ForkJoin.checkForHot(this);

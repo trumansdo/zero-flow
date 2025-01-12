@@ -5,12 +5,19 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * 快速将{@link List}转成流处理
+ * 快速将{@link java.util.List}转成流处理
  *
  * @author wolray
  */
 public interface ListZeroFlow<T> extends SizedZeroFlow<T>, List<T> {
 
+  /**
+   * <p>of.</p>
+   *
+   * @param list a {@link java.util.List} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.ListZeroFlow} object
+   */
   static <T> ListZeroFlow<T> of(List<T> list) {
 
     return list instanceof ListZeroFlow ? (ListZeroFlow<T>) list : new Proxy<>(list);

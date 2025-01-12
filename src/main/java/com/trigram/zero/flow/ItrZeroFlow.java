@@ -18,6 +18,8 @@ import java.util.function.Predicate;
 public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
 
   /**
+   * {@inheritDoc}
+   *
    * 消费就是循环
    */
   @Override
@@ -26,6 +28,7 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     forEach(consumer);
   }
 
+  /** {@inheritDoc} */
   @Override
   default Optional<T> find(Predicate<T> predicate) {
 
@@ -38,6 +41,8 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * 将自己作为迭代对象
    */
   @Override
@@ -46,6 +51,7 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     return this;
   }
 
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<E> map(Function<T, E> function) {
 
@@ -53,6 +59,8 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * 删除前面n个
    */
   @Override
@@ -62,6 +70,8 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * 按条件删除
    */
   @Override
@@ -71,6 +81,8 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * 过滤
    */
   @Override
@@ -80,8 +92,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 按数据的类型过滤
+   * {@inheritDoc}
    *
+   * 按数据的类型过滤
    */
   @Override
   default <E> ItrZeroFlow<E> filterInstance(Class<E> cls) {
@@ -105,9 +118,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 获取第一个
+   * {@inheritDoc}
    *
-   * @return {@link T }
+   * 获取第一个
    */
   @Override
   default T first() {
@@ -119,8 +132,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 展开二维可迭代对象
+   * {@inheritDoc}
    *
+   * 展开二维可迭代对象
    */
   @Override
   default <E> ItrZeroFlow<E> flatIterable(Function<T, Iterable<E>> function) {
@@ -128,12 +142,14 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     return () -> ItrUtil.flat(iterator(), function);
   }
 
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<E> flatOptional(Function<T, Optional<E>> function) {
 
     return () -> ItrUtil.flatOptional(ItrUtil.map(iterator(), function));
   }
 
+  /** {@inheritDoc} */
   @Override
   default T last() {
 
@@ -144,18 +160,14 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     return res;
   }
 
-  /**
-   * @see ItrUtil#map(Iterator, Function, int, Function)
-   */
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<E> map(Function<T, E> function, int n, Function<T, E> substitute) {
 
     return n <= 0 ? map(function) : () -> ItrUtil.map(iterator(), function, n, substitute);
   }
 
-  /**
-   * @see ItrUtil#mapIndexed(Iterator, IndexObjFunction)
-   */
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<E> mapIndexed(IndexObjFunction<T, E> function) {
 
@@ -163,8 +175,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * null的不处理
+   * {@inheritDoc}
    *
+   * null的不处理
    */
   @Override
   default <E> ItrZeroFlow<E> mapMaybe(Function<T, E> function) {
@@ -188,8 +201,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 转换后的数据为空则直接跳过
+   * {@inheritDoc}
    *
+   * 转换后的数据为空则直接跳过
    */
   @Override
   default <E> ItrZeroFlow<E> mapNotNull(Function<T, E> function) {
@@ -213,9 +227,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 折叠数据，就像是海浪一样，每个浪波是之前浪波的延续
+   * {@inheritDoc}
    *
-   * @return {@link E }
+   * 折叠数据，就像是海浪一样，每个浪波是之前浪波的延续
    */
   @Override
   default <E> E fold(E init, BiFunction<E, T, E> function) {
@@ -228,8 +242,9 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
-   * 类似Peek只消费不处理也不终止
+   * {@inheritDoc}
    *
+   * 类似Peek只消费不处理也不终止
    */
   @Override
   default ItrZeroFlow<T> onEach(Consumer<T> consumer) {
@@ -240,6 +255,7 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     });
   }
 
+  /** {@inheritDoc} */
   @Override
   default ItrZeroFlow<T> onEach(int n, Consumer<T> consumer) {
 
@@ -250,10 +266,11 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * 在处理中折叠，就像是海浪一样，每个浪波是之前浪波的延续。
    * <p>
    * 但不同于方法{@link #fold(Object, BiFunction)}是关注最后一个浪波的结果，而它关注每个浪波的形成
-   *
    */
   @Override
   default <E> ItrZeroFlow<E> runningFold(E init, BiFunction<E, T, E> function) {
@@ -270,24 +287,21 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
     };
   }
 
-  /**
-   * @see ItrUtil#take(Iterator, int)
-   */
+  /** {@inheritDoc} */
   @Override
   default ItrZeroFlow<T> take(int n) {
 
     return () -> ItrUtil.take(iterator(), n);
   }
 
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<T> takeWhile(Function<T, E> function, BiPredicate<E, E> testPrevCurr) {
 
     return () -> ItrUtil.takeWhile(iterator(), function, testPrevCurr);
   }
 
-  /**
-   * @see ItrUtil#takeWhile(Iterator, Predicate)
-   */
+  /** {@inheritDoc} */
   @Override
   default ItrZeroFlow<T> takeWhile(Predicate<T> predicate) {
 
@@ -298,7 +312,7 @@ public interface ItrZeroFlow<T> extends Iterable<T>, ZeroFlow<T> {
    * 获取可以将指定数据插值压缩进流中的迭代器
    *
    * @param t 每个数据之间的插入数据
-   *
+   * @return a {@link com.trigram.zero.flow.ItrZeroFlow} object
    */
   default ItrZeroFlow<T> zip(T t) {
 

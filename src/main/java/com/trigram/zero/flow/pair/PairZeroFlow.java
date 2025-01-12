@@ -18,31 +18,59 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * 二元流，对应天生的消费接口是{@link Map#forEach(BiConsumer)}
+ * 二元流，对应天生的消费接口是{@link java.util.Map#forEach(BiConsumer)}
  *
  * @author wolray
  */
 public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
 
+  /**
+   * <p>empty.</p>
+   *
+   * @param <K> a K class
+   * @param <V> a V class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   @SuppressWarnings("unchecked")
   static <K, V> PairZeroFlow<K, V> empty() {
 
     return (PairZeroFlow<K, V>) Empty.emptySeq;
   }
 
+  /**
+   * <p>nothing.</p>
+   *
+   * @param <K> a K class
+   * @param <V> a V class
+   * @return a {@link java.util.function.BiConsumer} object
+   */
   @SuppressWarnings("unchecked")
   static <K, V> BiConsumer<K, V> nothing() {
 
     return (BiConsumer<K, V>) Empty.nothing;
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param map a {@link java.util.Map} object
+   * @param <K> a K class
+   * @param <V> a V class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   static <K, V> PairZeroFlow<K, V> of(Map<K, V> map) {
 
     return map instanceof MapZeroFlow ? (MapZeroFlow<K, V>) map : map::forEach;
   }
 
   /**
+   * <p>parseMap.</p>
+   *
    * @see #parseMap(char[], char, char)
+   * @param s a {@link java.lang.String} object
+   * @param entrySep a char
+   * @param kvSep a char
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
    */
   static PairZeroFlow<String, String> parseMap(String s, char entrySep, char kvSep) {
 
@@ -58,7 +86,7 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
    *     每个键值对之间的分隔符
    * @param kvSep
    *     键值的分隔符
-   *
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
    */
   static PairZeroFlow<String, String> parseMap(char[] chars, char entrySep, char kvSep) {
 
@@ -83,11 +111,25 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     };
   }
 
+  /**
+   * <p>unit.</p>
+   *
+   * @param k a K object
+   * @param v a V object
+   * @param <K> a K class
+   * @param <V> a V class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   static <K, V> PairZeroFlow<K, V> unit(K k, V v) {
 
     return c -> c.accept(k, v);
   }
 
+  /**
+   * <p>cache.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default PairZeroFlow<K, V> cache() {
 
     ZeroFlow<Pair<K, V>> pairSeq = paired().cache();
@@ -95,19 +137,33 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
   }
 
   /**
-   * 将key和value用{@link Pair}存放
+   * 将key和value用{@link com.trigram.zero.flow.pair.Pair}存放
    *
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
    */
   default ZeroFlow<Pair<K, V>> paired() {
 
     return map(Pair::new);
   }
 
+  /**
+   * <p>map.</p>
+   *
+   * @param function a {@link java.util.function.BiFunction} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default <T> ZeroFlow<T> map(BiFunction<K, V, T> function) {
 
     return c -> consume((k, v) -> c.accept(function.apply(k, v)));
   }
 
+  /**
+   * <p>filter.</p>
+   *
+   * @param predicate a {@link java.util.function.BiPredicate} object
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default PairZeroFlow<K, V> filter(BiPredicate<K, V> predicate) {
 
     return c -> consume((k, v) -> {
@@ -117,6 +173,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>filterByKey.</p>
+   *
+   * @param predicate a {@link java.util.function.Predicate} object
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default PairZeroFlow<K, V> filterByKey(Predicate<K> predicate) {
 
     return c -> consume((k, v) -> {
@@ -126,6 +188,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>filterByValue.</p>
+   *
+   * @param predicate a {@link java.util.function.Predicate} object
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default PairZeroFlow<K, V> filterByValue(Predicate<V> predicate) {
 
     return c -> consume((k, v) -> {
@@ -136,9 +204,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
   }
 
   /**
-   * 折叠，如{@link ItrZeroFlow#fold(Object, BiFunction)}
+   * 折叠，如{@link com.trigram.zero.flow.ItrZeroFlow#fold(Object, BiFunction)}
    *
-   * @return {@link E }
+   * @return {@link E}
+   * @param init a E object
+   * @param function a {@link com.trigram.zero.flow.triple.TripleFunction} object
+   * @param <E> a E class
    */
   default <E> E fold(E init, TripleFunction<E, K, V, E> function) {
 
@@ -150,6 +221,7 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
   /**
    * 返回key的流
    *
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
    */
   default ZeroFlow<K> justKeys() {
 
@@ -159,32 +231,67 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
   /**
    * 返回value的流
    *
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
    */
   default ZeroFlow<V> justValues() {
 
     return c -> consume((k, v) -> c.accept(v));
   }
 
+  /**
+   * <p>mapKey.</p>
+   *
+   * @param function a {@link java.util.function.BiFunction} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default <T> PairZeroFlow<T, V> mapKey(BiFunction<K, V, T> function) {
 
     return c -> consume((k, v) -> c.accept(function.apply(k, v), v));
   }
 
+  /**
+   * <p>mapKey.</p>
+   *
+   * @param function a {@link java.util.function.Function} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default <T> PairZeroFlow<T, V> mapKey(Function<K, T> function) {
 
     return c -> consume((k, v) -> c.accept(function.apply(k), v));
   }
 
+  /**
+   * <p>mapValue.</p>
+   *
+   * @param function a {@link java.util.function.BiFunction} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default <T> PairZeroFlow<K, T> mapValue(BiFunction<K, V, T> function) {
 
     return c -> consume((k, v) -> c.accept(k, function.apply(k, v)));
   }
 
+  /**
+   * <p>mapValue.</p>
+   *
+   * @param function a {@link java.util.function.Function} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default <T> PairZeroFlow<K, T> mapValue(Function<V, T> function) {
 
     return c -> consume((k, v) -> c.accept(k, function.apply(v)));
   }
 
+  /**
+   * <p>maxByKey.</p>
+   *
+   * @param comparator a {@link java.util.Comparator} object
+   * @return a {@link com.trigram.zero.flow.pair.Pair} object
+   */
   default Pair<K, V> maxByKey(Comparator<K> comparator) {
 
     return reduce(new Pair<>(null, null), (p, k, v) -> {
@@ -194,12 +301,26 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>reduce.</p>
+   *
+   * @param des a E object
+   * @param accumulator a {@link com.trigram.zero.flow.triple.TripleConsumer} object
+   * @param <E> a E class
+   * @return a E object
+   */
   default <E> E reduce(E des, TripleConsumer<E, K, V> accumulator) {
 
     consume((k, v) -> accumulator.accept(des, k, v));
     return des;
   }
 
+  /**
+   * <p>maxByValue.</p>
+   *
+   * @param comparator a {@link java.util.Comparator} object
+   * @return a {@link com.trigram.zero.flow.pair.Pair} object
+   */
   default Pair<K, V> maxByValue(Comparator<V> comparator) {
 
     return reduce(new Pair<>(null, null), (p, k, v) -> {
@@ -209,6 +330,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>minByKey.</p>
+   *
+   * @param comparator a {@link java.util.Comparator} object
+   * @return a {@link com.trigram.zero.flow.pair.Pair} object
+   */
   default Pair<K, V> minByKey(Comparator<K> comparator) {
 
     return reduce(new Pair<>(null, null), (p, k, v) -> {
@@ -218,6 +345,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>minByValue.</p>
+   *
+   * @param comparator a {@link java.util.Comparator} object
+   * @return a {@link com.trigram.zero.flow.pair.Pair} object
+   */
   default Pair<K, V> minByValue(Comparator<V> comparator) {
 
     return reduce(new Pair<>(null, null), (p, k, v) -> {
@@ -227,6 +360,12 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
     });
   }
 
+  /**
+   * <p>onEach.</p>
+   *
+   * @param consumer a {@link java.util.function.BiConsumer} object
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
+   */
   default PairZeroFlow<K, V> onEach(BiConsumer<K, V> consumer) {
 
     return c -> consumeTillStop(consumer.andThen(c));
@@ -235,27 +374,58 @@ public interface PairZeroFlow<K, V> extends BaseZeroFlow<BiConsumer<K, V>> {
   /**
    * 交换key和value
    *
+   * @return a {@link com.trigram.zero.flow.pair.PairZeroFlow} object
    */
   default PairZeroFlow<V, K> swap() {
 
     return c -> consume((k, v) -> c.accept(v, k));
   }
 
+  /**
+   * <p>toMap.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.MapZeroFlow} object
+   */
   default MapZeroFlow<K, V> toMap() {
 
     return toMap(new LinkedHashMap<>());
   }
 
+  /**
+   * <p>toMap.</p>
+   *
+   * @param des a {@link java.util.Map} object
+   * @return a {@link com.trigram.zero.flow.MapZeroFlow} object
+   */
   default MapZeroFlow<K, V> toMap(Map<K, V> des) {
 
     return MapZeroFlow.of(reduce(des, Map::put));
   }
 
+  /**
+   * <p>toMap.</p>
+   *
+   * @param toKey a {@link java.util.function.BiFunction} object
+   * @param toValue a {@link java.util.function.BiFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @return a {@link com.trigram.zero.flow.MapZeroFlow} object
+   */
   default <A, B> MapZeroFlow<A, B> toMap(BiFunction<K, V, A> toKey, BiFunction<K, V, B> toValue) {
 
     return toMap(new LinkedHashMap<>(), toKey, toValue);
   }
 
+  /**
+   * <p>toMap.</p>
+   *
+   * @param des a {@link java.util.Map} object
+   * @param toKey a {@link java.util.function.BiFunction} object
+   * @param toValue a {@link java.util.function.BiFunction} object
+   * @param <A> a A class
+   * @param <B> a B class
+   * @return a {@link com.trigram.zero.flow.MapZeroFlow} object
+   */
   default <A, B> MapZeroFlow<A, B> toMap(Map<A, B> des, BiFunction<K, V, A> toKey, BiFunction<K, V, B> toValue) {
 
     return MapZeroFlow.of(reduce(des, (res, k, v) -> res.put(toKey.apply(k, v), toValue.apply(k, v))));

@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
+ * <p>Abstract AsyncZeroFlow class.</p>
+ *
  * @author wolray
  */
 public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
@@ -22,12 +24,18 @@ public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
     this.source = source;
   }
 
+  /**
+   * <p>cancel.</p>
+   */
   public void cancel() {
 
     cancelled = true;
     joinConsume();
   }
 
+  /**
+   * <p>joinConsume.</p>
+   */
   public void joinConsume() {
 
     if (task != null) {
@@ -35,6 +43,9 @@ public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
     }
   }
 
+  /**
+   * <p>checkState.</p>
+   */
   protected void checkState() {
 
     if (task != null) {
@@ -42,6 +53,12 @@ public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
     }
   }
 
+  /**
+   * <p>onStart.</p>
+   *
+   * @param runnable a {@link java.lang.Runnable} object
+   * @return a {@link com.trigram.zero.flow.AsyncZeroFlow} object
+   */
   public AsyncZeroFlow<T> onStart(Runnable runnable) {
 
     return new AsyncZeroFlow<T>(async, source) {
@@ -55,6 +72,12 @@ public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
     };
   }
 
+  /**
+   * <p>onCompletion.</p>
+   *
+   * @param runnable a {@link java.lang.Runnable} object
+   * @return a {@link com.trigram.zero.flow.AsyncZeroFlow} object
+   */
   public AsyncZeroFlow<T> onCompletion(Runnable runnable) {
 
     return new AsyncZeroFlow<T>(async, source) {
@@ -68,6 +91,7 @@ public abstract class AsyncZeroFlow<T> implements ZeroFlow<T> {
     };
   }
 
+  /** {@inheritDoc} */
   @Override
   public <E> AsyncZeroFlow<E> map(Function<T, E> function) {
 

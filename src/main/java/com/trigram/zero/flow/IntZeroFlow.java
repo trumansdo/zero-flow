@@ -14,16 +14,27 @@ import java.util.function.IntToDoubleFunction;
 import java.util.function.IntUnaryOperator;
 
 /**
+ * <p>IntZeroFlow interface.</p>
+ *
  * @author wolray
  */
 public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
 
   IntZeroFlow empty = c -> {
+  /** Constant <code>empty</code> */
   };
 
   IntConsumer nothing = t -> {
+  /** Constant <code>nothing</code> */
   };
 
+  /**
+   * <p>gen.</p>
+   *
+   * @param seed a int
+   * @param operator a {@link java.util.function.IntUnaryOperator} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow gen(int seed, IntUnaryOperator operator) {
 
     return c -> {
@@ -35,6 +46,14 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>gen.</p>
+   *
+   * @param seed1 a int
+   * @param seed2 a int
+   * @param operator a {@link java.util.function.IntBinaryOperator} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow gen(int seed1, int seed2, IntBinaryOperator operator) {
 
     return c -> {
@@ -47,6 +66,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>gen.</p>
+   *
+   * @param supplier a {@link java.util.function.IntSupplier} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow gen(IntSupplier supplier) {
 
     return c -> {
@@ -56,6 +81,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param cs a {@link java.lang.CharSequence} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow of(CharSequence cs) {
 
     return c -> {
@@ -65,6 +96,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>of.</p>
+   *
+   * @param ts a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow of(int... ts) {
 
     return c -> {
@@ -74,11 +111,26 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>range.</p>
+   *
+   * @param start a int
+   * @param stop a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow range(int start, int stop) {
 
     return range(start, stop, 1);
   }
 
+  /**
+   * <p>range.</p>
+   *
+   * @param start a int
+   * @param stop a int
+   * @param step a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow range(int start, int stop, int step) {
 
     if (step == 0) {
@@ -97,11 +149,24 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>range.</p>
+   *
+   * @param stop a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow range(int stop) {
 
     return range(0, stop, 1);
   }
 
+  /**
+   * <p>repeat.</p>
+   *
+   * @param n a int
+   * @param value a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   static IntZeroFlow repeat(int n, int value) {
 
     return c -> {
@@ -111,11 +176,23 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>all.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a boolean
+   */
   default boolean all(IntPredicate predicate) {
 
     return !find(predicate.negate()).isPresent();
   }
 
+  /**
+   * <p>find.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt find(IntPredicate predicate) {
 
     Mutable<Integer> m = new Mutable<>(null);
@@ -128,16 +205,34 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return m.isSet ? OptionalInt.of(m.it) : OptionalInt.empty();
   }
 
+  /**
+   * <p>anyNot.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a boolean
+   */
   default boolean anyNot(IntPredicate predicate) {
 
     return any(predicate.negate());
   }
 
+  /**
+   * <p>any.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a boolean
+   */
   default boolean any(IntPredicate predicate) {
 
     return find(predicate).isPresent();
   }
 
+  /**
+   * <p>append.</p>
+   *
+   * @param t a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow append(int t) {
 
     return c -> {
@@ -146,6 +241,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>append.</p>
+   *
+   * @param t a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow append(int... t) {
 
     return c -> {
@@ -156,6 +257,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>appendWith.</p>
+   *
+   * @param seq a {@link com.trigram.zero.flow.IntZeroFlow} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow appendWith(IntZeroFlow seq) {
 
     return c -> {
@@ -164,11 +271,22 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>average.</p>
+   *
+   * @return a double
+   */
   default double average() {
 
     return average(null);
   }
 
+  /**
+   * <p>average.</p>
+   *
+   * @param weightFunction a {@link java.util.function.IntToDoubleFunction} object
+   * @return a double
+   */
   default double average(IntToDoubleFunction weightFunction) {
 
     double[] a = {0, 0};
@@ -185,11 +303,21 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return a[1] != 0 ? a[0] / a[1] : 0;
   }
 
+  /**
+   * <p>boxed.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default ZeroFlow<Integer> boxed() {
 
     return c -> consume(c::accept);
   }
 
+  /**
+   * <p>circle.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow circle() {
 
     return c -> {
@@ -199,28 +327,58 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>consumeIndexedTillStop.</p>
+   *
+   * @param consumer a {@link com.trigram.zero.flow.IntZeroFlow.IndexIntConsumer} object
+   */
   default void consumeIndexedTillStop(IndexIntConsumer consumer) {
 
     int[] a = {0};
     consumeTillStop(t -> consumer.accept(a[0]++, t));
   }
 
+  /**
+   * <p>count.</p>
+   *
+   * @return a int
+   */
   default int count() {
 
     return reduce(new int[1], (a, t) -> a[0]++)[0];
   }
 
+  /**
+   * <p>reduce.</p>
+   *
+   * @param des a E object
+   * @param consumer a {@link com.trigram.zero.flow.IntZeroFlow.ObjIntConsumer} object
+   * @param <E> a E class
+   * @return a E object
+   */
   default <E> E reduce(E des, ObjIntConsumer<E> consumer) {
 
     consume(t -> consumer.accept(des, t));
     return des;
   }
 
+  /**
+   * <p>countNot.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a int
+   */
   default int countNot(IntPredicate predicate) {
 
     return count(predicate.negate());
   }
 
+  /**
+   * <p>count.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a int
+   */
   default int count(IntPredicate predicate) {
 
     return reduce(new int[1], (a, t) -> {
@@ -230,11 +388,23 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     })[0];
   }
 
+  /**
+   * <p>distinct.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow distinct() {
 
     return distinctBy(i -> i);
   }
 
+  /**
+   * <p>distinctBy.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @param <E> a E class
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default <E> IntZeroFlow distinctBy(IntFunction<E> function) {
 
     return c -> reduce(new HashSet<>(), (set, t) -> {
@@ -244,16 +414,36 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>drop.</p>
+   *
+   * @param n a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow drop(int n) {
 
     return n <= 0 ? this : partial(n, nothing);
   }
 
+  /**
+   * <p>partial.</p>
+   *
+   * @param n a int
+   * @param substitute a {@link java.util.function.IntConsumer} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow partial(int n, IntConsumer substitute) {
 
     return c -> consume(c, n, substitute);
   }
 
+  /**
+   * <p>consume.</p>
+   *
+   * @param consumer a {@link java.util.function.IntConsumer} object
+   * @param n a int
+   * @param substitute a {@link java.util.function.IntConsumer} object
+   */
   default void consume(IntConsumer consumer, int n, IntConsumer substitute) {
 
     if (n > 0) {
@@ -271,6 +461,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     }
   }
 
+  /**
+   * <p>dropWhile.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow dropWhile(IntPredicate predicate) {
 
     return c -> foldBoolean(false, (b, t) -> {
@@ -282,6 +478,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>foldBoolean.</p>
+   *
+   * @param init a boolean
+   * @param function a {@link com.trigram.zero.flow.IntZeroFlow.BoolIntToBool} object
+   * @return a boolean
+   */
   default boolean foldBoolean(boolean init, BoolIntToBool function) {
 
     boolean[] a = {init};
@@ -289,6 +492,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return a[0];
   }
 
+  /**
+   * <p>duplicateAll.</p>
+   *
+   * @param times a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow duplicateAll(int times) {
 
     return c -> {
@@ -298,6 +507,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>duplicateEach.</p>
+   *
+   * @param times a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow duplicateEach(int times) {
 
     return c -> consume(t -> {
@@ -307,6 +522,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>duplicateIf.</p>
+   *
+   * @param times a int
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow duplicateIf(int times, IntPredicate predicate) {
 
     return c -> consume(t -> {
@@ -320,6 +542,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>filter.</p>
+   *
+   * @param n a int
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow filter(int n, IntPredicate predicate) {
 
     return c -> consume(c, n, t -> {
@@ -329,6 +558,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>filterIndexed.</p>
+   *
+   * @param predicate a {@link com.trigram.zero.flow.IntZeroFlow.IndexIntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow filterIndexed(IndexIntPredicate predicate) {
 
     return c -> consumeIndexed((i, t) -> {
@@ -338,17 +573,34 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>consumeIndexed.</p>
+   *
+   * @param consumer a {@link com.trigram.zero.flow.IntZeroFlow.IndexIntConsumer} object
+   */
   default void consumeIndexed(IndexIntConsumer consumer) {
 
     int[] a = {0};
     consume(t -> consumer.accept(a[0]++, t));
   }
 
+  /**
+   * <p>filterNot.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow filterNot(IntPredicate predicate) {
 
     return filter(predicate.negate());
   }
 
+  /**
+   * <p>filter.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow filter(IntPredicate predicate) {
 
     return c -> consume(t -> {
@@ -358,21 +610,45 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>findNot.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt findNot(IntPredicate predicate) {
 
     return find(predicate.negate());
   }
 
+  /**
+   * <p>first.</p>
+   *
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt first() {
 
     return find(t -> true);
   }
 
+  /**
+   * <p>flatMap.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow flatMap(IntFunction<IntZeroFlow> function) {
 
     return c -> consume(t -> function.apply(t).consume(c));
   }
 
+  /**
+   * <p>foldDouble.</p>
+   *
+   * @param init a double
+   * @param function a {@link com.trigram.zero.flow.IntZeroFlow.DoubleIntToDouble} object
+   * @return a double
+   */
   default double foldDouble(double init, DoubleIntToDouble function) {
 
     double[] a = {init};
@@ -380,6 +656,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return a[0];
   }
 
+  /**
+   * <p>foldLong.</p>
+   *
+   * @param init a long
+   * @param function a {@link com.trigram.zero.flow.IntZeroFlow.LongIntToLong} object
+   * @return a long
+   */
   default long foldLong(long init, LongIntToLong function) {
 
     long[] a = {init};
@@ -387,16 +670,33 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return a[0];
   }
 
+  /**
+   * <p>lastNot.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt lastNot(IntPredicate predicate) {
 
     return last(predicate.negate());
   }
 
+  /**
+   * <p>last.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt last(IntPredicate predicate) {
 
     return filter(predicate).last();
   }
 
+  /**
+   * <p>last.</p>
+   *
+   * @return a {@link java.util.OptionalInt} object
+   */
   default OptionalInt last() {
 
     Mutable<Integer> m = new Mutable<>(null);
@@ -404,16 +704,37 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return m.isSet ? OptionalInt.of(m.it) : OptionalInt.empty();
   }
 
+  /**
+   * <p>map.</p>
+   *
+   * @param function a {@link java.util.function.IntUnaryOperator} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow map(IntUnaryOperator function) {
 
     return c -> consume(t -> c.accept(function.applyAsInt(t)));
   }
 
+  /**
+   * <p>mapIndexed.</p>
+   *
+   * @param function a {@link com.trigram.zero.flow.IntZeroFlow.IndexIntToInt} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow mapIndexed(IndexIntToInt function) {
 
     return c -> consumeIndexed((i, t) -> c.accept(function.apply(i, t)));
   }
 
+  /**
+   * <p>mapToObj.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @param n a int
+   * @param substitute a {@link java.util.function.IntFunction} object
+   * @param <E> a E class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default <E> ZeroFlow<E> mapToObj(IntFunction<E> function, int n, IntFunction<E> substitute) {
 
     return n <= 0 ? mapToObj(function) : c -> {
@@ -429,16 +750,36 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>mapToObj.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @param <E> a E class
+   * @return a {@link com.trigram.zero.flow.ZeroFlow} object
+   */
   default <E> ZeroFlow<E> mapToObj(IntFunction<E> function) {
 
     return c -> consume(t -> c.accept(function.apply(t)));
   }
 
+  /**
+   * <p>max.</p>
+   *
+   * @return a {@link java.lang.Integer} object
+   */
   default Integer max() {
 
     return fold(null, (f, t) -> f == null || f < t ? t : f);
   }
 
+  /**
+   * <p>fold.</p>
+   *
+   * @param init a E object
+   * @param function a {@link com.trigram.zero.flow.IntZeroFlow.ObjIntToObj} object
+   * @param <E> a E class
+   * @return a E object
+   */
   default <E> E fold(E init, ObjIntToObj<E> function) {
 
     Mutable<E> m = new Mutable<>(init);
@@ -446,6 +787,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return m.it;
   }
 
+  /**
+   * <p>max.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @param <V> a V class
+   * @return a {@link com.trigram.zero.flow.pair.IntPair} object
+   */
   default <V extends Comparable<V>> IntPair<V> max(IntFunction<V> function) {
 
     return reduce(new IntPair<>(0, null), (p, t) -> {
@@ -457,11 +805,23 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>min.</p>
+   *
+   * @return a {@link java.lang.Integer} object
+   */
   default Integer min() {
 
     return fold(null, (f, t) -> f == null || f > t ? t : f);
   }
 
+  /**
+   * <p>min.</p>
+   *
+   * @param function a {@link java.util.function.IntFunction} object
+   * @param <V> a V class
+   * @return a {@link com.trigram.zero.flow.pair.IntPair} object
+   */
   default <V extends Comparable<V>> IntPair<V> min(IntFunction<V> function) {
 
     return reduce(new IntPair<>(0, null), (p, t) -> {
@@ -473,21 +833,46 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>none.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a boolean
+   */
   default boolean none(IntPredicate predicate) {
 
     return !find(predicate).isPresent();
   }
 
+  /**
+   * <p>onEach.</p>
+   *
+   * @param n a int
+   * @param consumer a {@link java.util.function.IntConsumer} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow onEach(int n, IntConsumer consumer) {
 
     return c -> consume(c, n, consumer.andThen(c));
   }
 
+  /**
+   * <p>onEach.</p>
+   *
+   * @param consumer a {@link java.util.function.IntConsumer} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow onEach(IntConsumer consumer) {
 
     return c -> consume(consumer.andThen(c));
   }
 
+  /**
+   * <p>onEachIndexed.</p>
+   *
+   * @param consumer a {@link com.trigram.zero.flow.IntZeroFlow.IndexIntConsumer} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow onEachIndexed(IndexIntConsumer consumer) {
 
     return c -> consumeIndexed((i, t) -> {
@@ -496,15 +881,25 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>replace.</p>
+   *
+   * @param n a int
+   * @param operator a {@link java.util.function.IntUnaryOperator} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow replace(int n, IntUnaryOperator operator) {
 
     return c -> consume(c, n, t -> c.accept(operator.applyAsInt(t)));
   }
 
   /**
-   * @return {@link IntZeroFlow }
+   * <p>runningFold.</p>
    *
+   * @return {@link com.trigram.zero.flow.IntZeroFlow}
    * @see ItrZeroFlow#fold(Object, BiFunction)
+   * @param init a int
+   * @param function a {@link java.util.function.IntBinaryOperator} object
    */
   default IntZeroFlow runningFold(int init, IntBinaryOperator function) {
 
@@ -515,6 +910,13 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>foldInt.</p>
+   *
+   * @param init a int
+   * @param function a {@link java.util.function.IntBinaryOperator} object
+   * @return a int
+   */
   default int foldInt(int init, IntBinaryOperator function) {
 
     int[] a = {init};
@@ -522,16 +924,33 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     return a[0];
   }
 
+  /**
+   * <p>sum.</p>
+   *
+   * @return a int
+   */
   default int sum() {
 
     return reduce(new int[1], (a, t) -> a[0] += t)[0];
   }
 
+  /**
+   * <p>sum.</p>
+   *
+   * @param function a {@link java.util.function.IntUnaryOperator} object
+   * @return a int
+   */
   default int sum(IntUnaryOperator function) {
 
     return reduce(new int[1], (a, t) -> a[0] += function.applyAsInt(t))[0];
   }
 
+  /**
+   * <p>take.</p>
+   *
+   * @param n a int
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow take(int n) {
 
     return n <= 0 ? empty : c -> {
@@ -546,6 +965,12 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     };
   }
 
+  /**
+   * <p>takeWhile.</p>
+   *
+   * @param predicate a {@link java.util.function.IntPredicate} object
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow} object
+   */
   default IntZeroFlow takeWhile(IntPredicate predicate) {
 
     return c -> consumeTillStop(t -> {
@@ -557,11 +982,21 @@ public interface IntZeroFlow extends BaseZeroFlow<IntConsumer> {
     });
   }
 
+  /**
+   * <p>toArray.</p>
+   *
+   * @return an array of {@link int} objects
+   */
   default int[] toArray() {
 
     return toBatched().toArray();
   }
 
+  /**
+   * <p>toBatched.</p>
+   *
+   * @return a {@link com.trigram.zero.flow.IntZeroFlow.Batched} object
+   */
   default Batched toBatched() {
 
     return reduce(new Batched(), Batched::add);

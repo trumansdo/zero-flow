@@ -24,6 +24,11 @@ public interface ItrUtil {
 
   /**
    * 包装一个删除前面n个数据的迭代器
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param n a int
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> drop(Iterator<T> iterator, int n) {
 
@@ -42,6 +47,13 @@ public interface ItrUtil {
     };
   }
 
+  /**
+   * <p>pop.</p>
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @return a T object
+   */
   static <T> T pop(Iterator<T> iterator) {
 
     return iterator.hasNext() ? iterator.next() : ZeroFlow.stop();
@@ -49,6 +61,11 @@ public interface ItrUtil {
 
   /**
    * 包装一个按条件删除的迭代器
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param predicate a {@link java.util.function.Predicate} object
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> dropWhile(Iterator<T> iterator, Predicate<T> predicate) {
 
@@ -73,6 +90,11 @@ public interface ItrUtil {
 
   /**
    * 包装成按条件过滤的迭代器
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param predicate a {@link java.util.function.Predicate} object
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> filter(Iterator<T> iterator, Predicate<T> predicate) {
 
@@ -95,6 +117,11 @@ public interface ItrUtil {
   /**
    * 包装展开二维可迭代对象的迭代器
    *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param function a {@link java.util.function.Function} object
+   * @param <T> a T class
+   * @param <E> a E class
+   * @return a {@link com.trigram.zero.flow.iterators.PickItr} object
    */
   static <T, E> PickItr<E> flat(Iterator<T> iterator, Function<T, ? extends Iterable<E>> function) {
 
@@ -103,6 +130,10 @@ public interface ItrUtil {
 
   /**
    * 展开二维可迭代对象的迭代器
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.iterators.PickItr} object
    */
   static <T> PickItr<T> flat(Iterator<? extends Iterable<T>> iterator) {
 
@@ -121,6 +152,15 @@ public interface ItrUtil {
     };
   }
 
+  /**
+   * <p>map.</p>
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param function a {@link java.util.function.Function} object
+   * @param <T> a T class
+   * @param <E> a E class
+   * @return a {@link java.util.Iterator} object
+   */
   static <T, E> Iterator<E> map(Iterator<T> iterator, Function<T, E> function) {
 
     return new MapItr<T, E>(iterator) {
@@ -134,8 +174,11 @@ public interface ItrUtil {
   }
 
   /**
-   * 展开{@link Optional} 的迭代器
+   * 展开{@link java.util.Optional} 的迭代器
    *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.iterators.PickItr} object
    */
   static <T> PickItr<T> flatOptional(Iterator<Optional<T>> iterator) {
 
@@ -156,13 +199,17 @@ public interface ItrUtil {
   }
 
   /**
-   * 保持与方法{@link ZeroFlow#consume(Consumer, int, Consumer)} 判断逻辑，小于等于0用另一个逻辑替换处理
+   * 保持与方法{@link com.trigram.zero.flow.ZeroFlow#consume(Consumer, int, Consumer)} 判断逻辑，小于等于0用另一个逻辑替换处理
    *
    * @param function
    *     小于等于0的处理
    * @param substitute
    *     大于0的处理
-   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param n a int
+   * @param <T> a T class
+   * @param <E> a E class
+   * @return a {@link java.util.Iterator} object
    */
   static <T, E> Iterator<E> map(Iterator<T> iterator, Function<T, E> function, int n, Function<T, E> substitute) {
 
@@ -186,6 +233,11 @@ public interface ItrUtil {
   /**
    * 包装可对索引和值转换的迭代器
    *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param function a {@link com.trigram.zero.flow.ZeroFlow.IndexObjFunction} object
+   * @param <T> a T class
+   * @param <E> a E class
+   * @return a {@link java.util.Iterator} object
    */
   static <T, E> Iterator<E> mapIndexed(Iterator<T> iterator, ZeroFlow.IndexObjFunction<T, E> function) {
 
@@ -204,6 +256,10 @@ public interface ItrUtil {
   /**
    * 获取前面n个数据
    *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param n a int
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> take(Iterator<T> iterator, int n) {
 
@@ -226,7 +282,10 @@ public interface ItrUtil {
    *     转换当前数据
    * @param testPrevCurr
    *     上一个和当前已转换后数据为参数的谓词
-   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @param <E> a E class
+   * @return a {@link java.util.Iterator} object
    */
   static <T, E> Iterator<T> takeWhile(Iterator<T> iterator, Function<T, E> function, BiPredicate<E, E> testPrevCurr) {
 
@@ -252,6 +311,10 @@ public interface ItrUtil {
   /**
    * 包装成按条件获取数据的迭代器，条件不满足时停止
    *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param predicate a {@link java.util.function.Predicate} object
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> takeWhile(Iterator<T> iterator, Predicate<T> predicate) {
 
@@ -267,9 +330,12 @@ public interface ItrUtil {
   }
 
   /**
-   * @return {@link InputStream }
+   * <p>toInputStream.</p>
    *
+   * @return {@link java.io.InputStream}
    * @see #toInputStream(Iterator, String)
+   * @param iterable a {@link java.lang.Iterable} object
+   * @param separator a {@link java.lang.String} object
    */
   static InputStream toInputStream(Iterable<String> iterable, String separator) {
 
@@ -277,15 +343,25 @@ public interface ItrUtil {
   }
 
   /**
-   * @return {@link InputStream }
+   * <p>toInputStream.</p>
    *
+   * @return {@link java.io.InputStream}
    * @see InputStreamItr#InputStreamItr(Iterator, String)
+   * @param iterator a {@link java.util.Iterator} object
+   * @param separator a {@link java.lang.String} object
    */
   static InputStream toInputStream(Iterator<String> iterator, String separator) {
 
     return new InputStreamItr(iterator, separator);
   }
 
+  /**
+   * <p>toStream.</p>
+   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @return a {@link java.util.stream.Stream} object
+   */
   static <T> Stream<T> toStream(Iterator<T> iterator) {
 
     return StreamSupport.stream(
@@ -299,7 +375,9 @@ public interface ItrUtil {
    *
    * @param t
    *     中间插入的指定数据
-   *
+   * @param iterator a {@link java.util.Iterator} object
+   * @param <T> a T class
+   * @return a {@link java.util.Iterator} object
    */
   static <T> Iterator<T> zip(Iterator<T> iterator, T t) {
 

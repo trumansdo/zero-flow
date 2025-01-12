@@ -3,12 +3,19 @@ package com.trigram.zero.flow;
 import java.util.Queue;
 
 /**
- * 快速将{@link Queue}转成流处理
+ * 快速将{@link java.util.Queue}转成流处理
  *
  * @author wolray
  */
 public interface QueueZeroFlow<T> extends SizedZeroFlow<T>, Queue<T> {
 
+  /**
+   * <p>of.</p>
+   *
+   * @param queue a {@link java.util.Queue} object
+   * @param <T> a T class
+   * @return a {@link com.trigram.zero.flow.QueueZeroFlow} object
+   */
   static <T> QueueZeroFlow<T> of(Queue<T> queue) {
 
     return queue instanceof QueueZeroFlow ? (QueueZeroFlow<T>) queue : new Proxy<>(queue);

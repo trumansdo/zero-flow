@@ -3,6 +3,8 @@ package com.trigram.zero.flow;
 import java.util.NoSuchElementException;
 
 /**
+ * <p>StopException class.</p>
+ *
  * @author wolray
  */
 public final class StopException extends NoSuchElementException {
@@ -13,6 +15,7 @@ public final class StopException extends NoSuchElementException {
 
   }
 
+  /** {@inheritDoc} */
   @Override
   public synchronized Throwable fillInStackTrace() {
 

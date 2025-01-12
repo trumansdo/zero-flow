@@ -24,12 +24,14 @@ public class BatchedZeroFlow<T> implements SizedZeroFlow<T> {
 
   private transient ArrayList<T> cur;
 
+  /** {@inheritDoc} */
   @Override
   public void consume(Consumer<T> consumer) {
 
     list.forEach(ls -> ls.forEach(consumer));
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<T> iterator() {
 
@@ -59,12 +61,14 @@ public class BatchedZeroFlow<T> implements SizedZeroFlow<T> {
     };
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isEmpty() {
 
     return size == 0;
   }
 
+  /** {@inheritDoc} */
   @Override
   public int size() {
 
@@ -73,6 +77,8 @@ public class BatchedZeroFlow<T> implements SizedZeroFlow<T> {
 
   /**
    * 对二维数据进行逐行添加
+   *
+   * @param t a T object
    */
   public void add(T t) {
 
@@ -89,6 +95,7 @@ public class BatchedZeroFlow<T> implements SizedZeroFlow<T> {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
 

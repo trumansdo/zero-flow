@@ -10,24 +10,34 @@ import java.util.function.Function;
  *
  * @version 1.0.0
  * @since 1.0.0
+ * @author Truma
  */
 public interface SizedZeroFlow<T> extends ItrZeroFlow<T> {
 
+  /** {@inheritDoc} */
   @Override
   default int sizeOrDefault() {
 
     return size();
   }
 
+  /** {@inheritDoc} */
   @Override
   default int count() {
 
     return size();
   }
 
+  /**
+   * <p>isEmpty.</p>
+   *
+   * @return a boolean
+   */
   boolean isEmpty();
 
   /**
+   * {@inheritDoc}
+   *
    * 当n超出容器最大下标用另一个替换处理，小于最大下标时的逻辑: {@link ZeroFlow#consume(Consumer, int, Consumer)}
    */
   @Override
@@ -40,22 +50,34 @@ public interface SizedZeroFlow<T> extends ItrZeroFlow<T> {
     }
   }
 
+  /**
+   * <p>size.</p>
+   *
+   * @return a int
+   */
   int size();
 
+  /** {@inheritDoc} */
   @Override
   default SizedZeroFlow<T> cache() {
 
     return this;
   }
 
+  /**
+   * <p>isNotEmpty.</p>
+   *
+   * @return a boolean
+   */
   default boolean isNotEmpty() {
 
     return !isEmpty();
   }
 
   /**
-   * 删除前面多少个数据
+   * {@inheritDoc}
    *
+   * 删除前面多少个数据
    */
   @Override
   default ItrZeroFlow<T> drop(int n) {
@@ -63,6 +85,7 @@ public interface SizedZeroFlow<T> extends ItrZeroFlow<T> {
     return n >= size() ? Collections::emptyIterator : ItrZeroFlow.super.drop(n);
   }
 
+  /** {@inheritDoc} */
   @Override
   default <E> SizedZeroFlow<E> map(Function<T, E> function) {
 
@@ -94,10 +117,7 @@ public interface SizedZeroFlow<T> extends ItrZeroFlow<T> {
     };
   }
 
-  /**
-   *
-   * @see ItrZeroFlow#map(Function, int, Function)
-   */
+  /** {@inheritDoc} */
   @Override
   default <E> ItrZeroFlow<E> map(Function<T, E> function, int n, Function<T, E> substitute) {
 
@@ -109,6 +129,7 @@ public interface SizedZeroFlow<T> extends ItrZeroFlow<T> {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   default ItrZeroFlow<T> take(int n) {
 

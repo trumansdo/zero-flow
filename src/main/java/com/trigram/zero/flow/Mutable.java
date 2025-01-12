@@ -14,11 +14,17 @@ public class Mutable<T> implements Lazy<T> {
 
   protected T it;
 
+  /**
+   * <p>Constructor for Mutable.</p>
+   *
+   * @param it a T object
+   */
   public Mutable(T it) {
 
     this.it = it;
   }
 
+  /** {@inheritDoc} */
   @Override
   public final T get() {
 
@@ -37,12 +43,14 @@ public class Mutable<T> implements Lazy<T> {
 
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isSet() {
 
     return isSet;
   }
 
+  /** {@inheritDoc} */
   @Override
   public synchronized final T forkJoin(ForkJoinPool pool) {
 
@@ -54,11 +62,17 @@ public class Mutable<T> implements Lazy<T> {
     return it;
   }
 
+  /**
+   * <p>eval.</p>
+   *
+   * @param pool a {@link java.util.concurrent.ForkJoinPool} object
+   */
   protected void eval(ForkJoinPool pool) {
 
     eval();
   }
 
+  /** {@inheritDoc} */
   @Override
   public T set(T value) {
 
@@ -66,16 +80,31 @@ public class Mutable<T> implements Lazy<T> {
     return this.it = value;
   }
 
+  /**
+   * <p>toOptional.</p>
+   *
+   * @return a {@link java.util.Optional} object
+   */
   public Optional<T> toOptional() {
 
     return isSet ? Optional.ofNullable(it) : Optional.empty();
   }
 
+  /**
+   * <p>Getter for the field <code>it</code>.</p>
+   *
+   * @return a T object
+   */
   public T getIt() {
 
     return it;
   }
 
+  /**
+   * <p>Setter for the field <code>it</code>.</p>
+   *
+   * @param it a T object
+   */
   public void setIt(T it) {
 
     this.it = it;

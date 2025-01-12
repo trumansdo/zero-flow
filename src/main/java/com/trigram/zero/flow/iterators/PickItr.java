@@ -15,6 +15,7 @@ public abstract class PickItr<T> implements Iterator<T> {
 
   private State state = State.Unset;
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasNext() {
 
@@ -31,9 +32,12 @@ public abstract class PickItr<T> implements Iterator<T> {
 
   /**
    * 获取下一个数据的方法，想法可以丰富些
+   *
+   * @return a T object
    */
   public abstract T pick();
 
+  /** {@inheritDoc} */
   @Override
   public T next() {
 
