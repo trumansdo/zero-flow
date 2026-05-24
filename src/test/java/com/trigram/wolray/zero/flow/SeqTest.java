@@ -8,6 +8,7 @@ import com.trigram.zero.flow.MapZeroFlow;
 import com.trigram.zero.flow.Reducer;
 import com.trigram.zero.flow.ZeroFlow;
 import com.trigram.zero.flow.pair.Pair;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class SeqTest {
 
   @Test
   public void testZip() {
+    System.out.println(StandardCharsets.UTF_8.displayName());
 
     long                       l        = System.nanoTime();
     ArrayListZeroFlow<Integer> zeroFlow = new ArrayListZeroFlow<>(Arrays.asList(1, 3));
